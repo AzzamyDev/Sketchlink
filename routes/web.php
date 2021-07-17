@@ -23,5 +23,4 @@ Route::get('/register', function () {
 });
 
 
-Route::resource('projects', ProjectController::class)->middleware('auth:sanctum');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

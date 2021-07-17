@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
+use App\Models\Review;
 use Illuminate\Http\Request;
-use App\Models\Type;
-use App\Models\User;
 
-class TypeController extends Controller
+class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,23 @@ class TypeController extends Controller
      */
     public function index()
     {
-        //
+       
+    }
+
+    public function getReviews($id)
+    {
+        $reviews = Review::all()->where('project_id', '=', $id);
+        $lenght = \count($reviews);
+        $stars = 0;
+        for ($i=0; $i < $lenght; $i++) { 
+            $stars = $stars + $reviews[$i]->stars;
+        }
+
+        return \response()->json([
+            'success' => true,
+            'data' => $reviews,
+            'stars' => $stars,
+        ]);
     }
 
     /**
@@ -36,7 +52,17 @@ class TypeController extends Controller
      */
     public function store(Request $request)
     {
-        
+        Review::create([
+            'user_id' => $request->user_id,
+            'project_id' => $request->project_id,
+            'review' => $request->review,
+            'stars' => $request->stars,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Thanks for review'
+        ]);
     }
 
     /**
@@ -58,7 +84,7 @@ class TypeController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
@@ -70,7 +96,15 @@ class TypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $review = Review::find($id);
+        $review->review = $request->review;
+        $review->stars = $request->stars;
+        $review->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Review Edited'
+        ]);
     }
 
     /**
@@ -81,6 +115,12 @@ class TypeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $review = Review::find($id);
+        $review->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Review has been deleted'
+        ]);
     }
 }
