@@ -41,9 +41,15 @@ class NotificationsController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'message' => 'require'
+        ]);
+        
         Notification::created([
             'message' => $request->message,
             'image' => $request->image,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
         ]);
 
         return response()->json([
