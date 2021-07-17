@@ -36,9 +36,9 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 //Reviews
-Route::resource('reviews', ReviewController::class)->middleware('auth:sanctum');
+Route::apiResource('reviews', ReviewController::class)->middleware('auth:sanctum');
 Route::get('reviews/project/{id}', [Review::class, 'getReviews'])->middleware('auth:sanctum');
 
 //Notification
-Route::resource('notifications', NotificationsController::class)->middleware('auth:sanctum');
+Route::apiResource('notifications', NotificationsController::class)->middleware('auth:sanctum');
 

@@ -42,9 +42,9 @@ class NotificationsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'message' => 'require'
+            'message' => 'required'
         ]);
-        
+
         Notification::created([
             'message' => $request->message,
             'image' => $request->image,
