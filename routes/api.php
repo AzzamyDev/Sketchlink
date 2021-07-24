@@ -31,9 +31,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/upload', [Project::class, 'upload']);
     //Request Download
     Route::post('/request/{id}', [Project::class, 'request']);
-    //Download file
-    Route::get('/download/{path}', [Project::class, 'download']);    
+       
 });
+//Download file
+Route::get('/download/{path}', [Project::class, 'download']); 
 
 //Reviews
 Route::apiResource('reviews', ReviewController::class)->middleware('auth:sanctum');

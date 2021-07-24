@@ -216,6 +216,11 @@ class ProjectController extends Controller
 
     public function download($file)
     {   
+        $project = Project::where('name', $file)->first();
+        $downloads = $project->downloads;
+        $project->downloads = $downloads + 1;
+        $project->save();
+        dd($project->downloads);
         $path = 'storage/projects/'.$file;
         return response()->download(public_path($path), $file);
     }
@@ -257,9 +262,9 @@ class ProjectController extends Controller
         ]);
     }
     
-    public static function editors()
+    public static function popular()
     {
-        $project = Project::where('editors', '=', 1)->with('icon','review')->get();
+        $project = Project::orderBy('downloads', 'desc')->with('icon','review')->get();
 
         return $project;
     }
@@ -282,12 +287,12 @@ class ProjectController extends Controller
     {
         $opensource = ProjectController::open()->take(20);;
         $last = ProjectController::lastUpdate()->take(20);;
-        $editors = ProjectController::editors()->take(20);;
+        $popular = ProjectController::popular()->take(20);;
 
         return \response()->json([
             'opensource' => $opensource,
             'last' => $last,
-            'editors' => $editors,
+            'editors' => $popular,
         ]);
     }
 

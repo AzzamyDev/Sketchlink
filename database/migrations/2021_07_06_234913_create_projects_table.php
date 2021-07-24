@@ -22,6 +22,7 @@ class CreateProjectsTable extends Migration
             $table->integer('editors')->default(0);
             $table->integer('category_id');
             $table->integer('open')->default(0);
+            $table->integer('downloads')->default(0);
             $table->timestamps();
         });
     }

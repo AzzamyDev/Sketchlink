@@ -31,8 +31,7 @@ if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
 |
 */
 
-// require __DIR__.'/../sketchlinks.my.id/vendor/autoload.php';
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../sketchlinks.my.id/vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -45,14 +44,13 @@ require __DIR__.'/../vendor/autoload.php';
 |
 */
 
-// $app = require_once __DIR__.'/../sketchlinks.my.id/bootstrap/app.php';
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__.'/../sketchlinks.my.id/bootstrap/app.php';
 
 $app->bind('path.public', function() {
     return __DIR__;
 });
 
-//symlink( __DIR__ .'/../project-laravel/storage/app/public', __DIR__ .'/storage' );
+symlink( __DIR__ .'/../project-laravel/storage/app/public', __DIR__ .'/storage' );
 
 $kernel = $app->make(Kernel::class);
 
