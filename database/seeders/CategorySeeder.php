@@ -27,7 +27,7 @@ class CategorySeeder extends Seeder
             'name' => 'Comunications',
         ]);
         DB::table('category')->insert([
-            'name' => 'Editors',
+            'name' => 'Educations',
         ]);
     }
 }

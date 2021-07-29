@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('image_path')->default('public/img/default.png');
             $table->integer('status')->default('1');
             $table->integer('type_id')->default('2');
+            $table->integer('limit')->default('5');
             $table->text('about')->default('This About You');
             $table->rememberToken();
             $table->timestamps();

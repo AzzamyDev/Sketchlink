@@ -6,6 +6,7 @@ use API\ProjectController;
 use App\Http\Controllers\API\ReviewController as Review;
 use API\ReviewController;
 use API\NotificationsController;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,14 +14,12 @@ use Illuminate\Support\Facades\Route;
 //LOgin
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
-Route::middleware('auth:sanctum')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 //Profile
 Route::post('/profile', [AuthController::class, 'profile'])->middleware('auth:sanctum');
 Route::post('/profile/type', [AuthController::class, 'type'])->middleware('auth:sanctum');
-Route::get('/profile/status', [AuthController::class, 'cekStatus'])->middleware('auth:sanctum');
-});
+Route::post('/profile/status', [AuthController::class, 'cekStatus'])->middleware('auth:sanctum');
+
 
 //Projects
 Route::resource('projects', ProjectController::class)->middleware('auth:sanctum');
@@ -39,4 +38,12 @@ Route::get('reviews/project/{id}', [Review::class, 'getReviews'])->middleware('a
 
 //Notification
 Route::resource('notifications', NotificationsController::class)->middleware('auth:sanctum');
+
+Route::get('category', function (){
+    $category = Category::all();
+    return response()->json([
+        'status' => true,
+        'data' => $category
+    ]);
+});
 

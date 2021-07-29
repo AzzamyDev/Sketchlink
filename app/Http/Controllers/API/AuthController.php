@@ -62,19 +62,23 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        if (Auth::check()) {
-            Auth::logout();
+        $user = $request->user();
+        $tokenId = $request->user()->currentAccessToken()->id;
+        $token = $user->tokens()->where('id', $tokenId);
+        if ($token == null) {
             return response()->json([
-                'status' => true,
-                'message' => 'User Loggout',
+                'status' => false,
+                'message' => 'Invalid Token ID',
             ]);
         }
 
+        $token->delete();
+
         return response()->json([
-            'status' => false,
-            'message' => 'User is Logout',
+            'status' => true,
+            'message' => 'Logout Succesfully',
         ]);
     }
 
@@ -94,9 +98,15 @@ class AuthController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-        $user->name = $request->name;
-        $user->about = $request->about;
-        $user->image_path = $request->image_path;
+        if ($request->name != null) {
+            $user->name = $request->name;
+        }
+        if ($request->about != null) {
+            $user->about = $request->about;
+        }
+        if ($request->image_path != null) {
+            $user->image_path = $request->image_path;
+        }
         $user->save();
 
         return response()->json([
@@ -105,9 +115,10 @@ class AuthController extends Controller
         ]);
     }
 
-    public function cekStatus()
+    public function cekStatus(Request $request)
     {
-        $user = Auth::user();
+
+        $user = $request->user();
         if($user->status == 0){
             return response()->json([
                 'status' => false,

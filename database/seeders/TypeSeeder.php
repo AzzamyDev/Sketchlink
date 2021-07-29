@@ -25,8 +25,5 @@ class TypeSeeder extends Seeder
         DB::table('type')->insert([
             'name' => 'Premium',
         ]);
-        DB::table('type')->insert([
-            'name' => 'Diamond',
-        ]);
     }
 }

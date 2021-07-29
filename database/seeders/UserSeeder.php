@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
             'name' => 'Abas',
             'email' => 'abas@gmail.com',
             'password' => Hash::make('angga890'),
-            'type_id' => 2
+            'type_id' => 3
         ]);
     }
 }

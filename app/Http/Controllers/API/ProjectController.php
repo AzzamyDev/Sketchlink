@@ -21,7 +21,7 @@ class ProjectController extends Controller
    
     public function index()
     {
-        $project = Project::with('icon', 'review')->get();
+        $project = Project::with('icon', 'review')->paginate(20);
         return $project;
     }
 
@@ -269,31 +269,30 @@ class ProjectController extends Controller
         return $project;
     }
 
-    public static function open()
+    public static function editors()
     {
-        $project = Project::where('open', '=', 1)->with('icon','review')->get();
-
-        return $project;
-    }
-
-    public static function lastUpdate()
-    {
-        $project = Project::orderBy('updated_at', 'desc')->with('icon','review')->get();
+        $project = Project::where('editors', '=', 1)->with('icon','review')->get();
 
         return $project;
     }
 
     public function getData()
     {
-        $opensource = ProjectController::open()->take(20);;
-        $last = ProjectController::lastUpdate()->take(20);;
-        $popular = ProjectController::popular()->take(20);;
+        $editors = ProjectController::editors()->take(20);
+        $popular = ProjectController::popular()->take(20);
 
         return \response()->json([
-            'opensource' => $opensource,
-            'last' => $last,
-            'editors' => $popular,
+            'editors' => $editors,
+            'popular' => $popular,
         ]);
+    }
+
+    
+    public static function newProjects()
+    {
+        $projects = Project::orderBy('updated_at', 'desc')->with('icon','review')->get();
+
+        return $projects->paginate(20);
     }
 
 }
